@@ -5,10 +5,12 @@ import { Project } from '../../../core/models/project.model';
 import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
 import { Router } from '@angular/router';
 
+import { FormsModule } from '@angular/forms';
+
 @Component({
     selector: 'app-project-list',
     standalone: true,
-    imports: [CommonModule, DataTableComponent],
+    imports: [CommonModule, DataTableComponent, FormsModule],
     templateUrl: './project-list.component.html'
 })
 export class ProjectListComponent implements OnInit {
@@ -17,12 +19,13 @@ export class ProjectListComponent implements OnInit {
     pageNumber = 1;
     pageSize = 10;
     isLoading = false;
+    searchTerm = '';
 
     columns = [
         { key: 'name', label: 'Project Name', type: 'text' as const },
         { key: 'description', label: 'Description', type: 'text' as const },
         { key: 'createdAt', label: 'Created At', type: 'date' as const },
-        { key: 'status', label: 'Status', type: 'badge' as const }, // Assuming we map isArchived to status
+        { key: 'status', label: 'Status', type: 'badge' as const },
         { key: 'actions', label: 'Actions', type: 'actions' as const }
     ];
 
@@ -32,9 +35,14 @@ export class ProjectListComponent implements OnInit {
         this.loadProjects();
     }
 
+    onSearch() {
+        this.pageNumber = 1;
+        this.loadProjects();
+    }
+
     loadProjects() {
         this.isLoading = true;
-        this.projectService.getProjects(this.pageNumber, this.pageSize).subscribe({
+        this.projectService.getProjects(this.pageNumber, this.pageSize, this.searchTerm).subscribe({
             next: (result) => {
                 this.projects = result.items.map(p => ({
                     ...p,

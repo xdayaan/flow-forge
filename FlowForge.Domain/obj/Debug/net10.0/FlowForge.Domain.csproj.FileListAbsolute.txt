@@ -9,3 +9,4 @@ D:\code\personal\flow-forge\FlowForge.Domain\obj\Debug\net10.0\FlowForge.Domain.
 D:\code\personal\flow-forge\FlowForge.Domain\obj\Debug\net10.0\refint\FlowForge.Domain.dll
 D:\code\personal\flow-forge\FlowForge.Domain\obj\Debug\net10.0\FlowForge.Domain.pdb
 D:\code\personal\flow-forge\FlowForge.Domain\obj\Debug\net10.0\ref\FlowForge.Domain.dll
+D:\code\personal\flow-forge\FlowForge.Domain\obj\Debug\net10.0\FlowForge.Domain.sourcelink.json

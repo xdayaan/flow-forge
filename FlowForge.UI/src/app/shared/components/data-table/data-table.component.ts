@@ -11,11 +11,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class DataTableComponent {
     @Input() data: any[] = [];
-    @Input() columns: { key: string; label: string; type?: 'text' | 'date' | 'badge' | 'actions' }[] = [];
+    @Input() columns: { key: string; label: string; type?: 'text' | 'date' | 'badge' | 'actions' | 'boolean' }[] = [];
     @Input() totalCount = 0;
-    @Input() pageNumber = 1;
+    @Input() pageIndex = 1; // Used to be pageNumber, aliasing or replacing
     @Input() pageSize = 10;
     @Input() isLoading = false;
+    @Input() showPagination = true;
 
     @Output() pageChange = new EventEmitter<number>();
     @Output() actionClick = new EventEmitter<{ action: string; row: any }>();
@@ -28,7 +29,7 @@ export class DataTableComponent {
         const pages = [];
         for (let i = 1; i <= this.totalPages; i++) {
             // Simple logic for now, can be optimized for large page counts
-            if (i === 1 || i === this.totalPages || (i >= this.pageNumber - 2 && i <= this.pageNumber + 2)) {
+            if (i === 1 || i === this.totalPages || (i >= this.pageIndex - 2 && i <= this.pageIndex + 2)) {
                 pages.push(i);
             }
         }

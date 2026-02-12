@@ -26,6 +26,34 @@ export const routes: Routes = [
             {
                 path: 'projects/edit/:id',
                 loadComponent: () => import('./features/projects/project-form/project-form.component').then(m => m.ProjectFormComponent)
+            },
+            {
+                path: 'tasks',
+                loadComponent: () => import('./features/tasks/task-list/task-list.component').then(m => m.TaskListComponent)
+            },
+            {
+                path: 'tasks/new',
+                loadComponent: () => import('./features/tasks/task-form/task-form.component').then(m => m.TaskFormComponent)
+            },
+            {
+                path: 'tasks/edit/:id',
+                loadComponent: () => import('./features/tasks/task-form/task-form.component').then(m => m.TaskFormComponent)
+            },
+            {
+                path: 'users',
+                loadComponent: () => import('./features/users/user-list/user-list.component').then(m => m.UserListComponent)
+            },
+            {
+                path: 'users/new',
+                loadComponent: () => import('./features/users/user-form/user-form.component').then(m => m.UserFormComponent)
+            },
+            {
+                path: 'users/edit/:id',
+                loadComponent: () => import('./features/users/user-form/user-form.component').then(m => m.UserFormComponent)
+            },
+            {
+                path: 'profile',
+                loadComponent: () => import('./features/users/profile/profile.component').then(m => m.ProfileComponent)
             }
         ]
     }

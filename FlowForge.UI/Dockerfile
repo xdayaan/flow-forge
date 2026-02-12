@@ -3,8 +3,8 @@ FROM node:22 AS build
 WORKDIR /app
 
 # Install dependencies
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json ./
+RUN npm install
 
 # Copy source code and build
 COPY . .

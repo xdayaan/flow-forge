@@ -11,12 +11,12 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="!isLoading">
     <div class="col-md-3 mb-4">
         <div class="card text-white bg-primary h-100">
             <div class="card-body">
                 <h5 class="card-title">Active Projects</h5>
-                <p class="card-text display-4">12</p>
+                <p class="card-text display-4">{{ stats.activeProjects }}</p>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
         <div class="card text-white bg-success h-100">
             <div class="card-body">
                 <h5 class="card-title">Completed Tasks</h5>
-                <p class="card-text display-4">45</p>
+                <p class="card-text display-4">{{ stats.completedTasks }}</p>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
         <div class="card text-white bg-warning h-100">
             <div class="card-body">
                 <h5 class="card-title">Pending Tasks</h5>
-                <p class="card-text display-4">8</p>
+                <p class="card-text display-4">{{ stats.pendingTasks }}</p>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
         <div class="card text-white bg-danger h-100">
             <div class="card-body">
                 <h5 class="card-title">Overdue</h5>
-                <p class="card-text display-4">3</p>
+                <p class="card-text display-4">{{ stats.overdueTasks }}</p>
             </div>
         </div>
     </div>
@@ -60,37 +60,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1,001</td>
-                <td>FlowForge API</td>
-                <td>Setup Auth</td>
-                <td>John Doe</td>
-                <td>Completed</td>
-                <td>2023-10-25</td>
+            <tr *ngFor="let item of recentActivity">
+                <td>{{ item.id.substring(0, 8) }}</td>
+                <td>{{ item.projectName }}</td>
+                <td>{{ item.taskTitle }}</td>
+                <td>{{ item.userName }}</td>
+                <td>{{ item.action }}</td>
+                <td>{{ item.date | date:'short' }}</td>
             </tr>
-            <tr>
-                <td>1,002</td>
-                <td>FlowForge UI</td>
-                <td>Scaffold App</td>
-                <td>Jane Smith</td>
-                <td>Started</td>
-                <td>2023-10-26</td>
-            </tr>
-            <tr>
-                <td>1,003</td>
-                <td>Marketing Site</td>
-                <td>Landing Page</td>
-                <td>Mike Jones</td>
-                <td>In Progress</td>
-                <td>2023-10-26</td>
-            </tr>
-            <tr>
-                <td>1,003</td>
-                <td>Marketing Site</td>
-                <td>Landing Page</td>
-                <td>Mike Jones</td>
-                <td>In Progress</td>
-                <td>2023-10-26</td>
+            <tr *ngIf="recentActivity.length === 0">
+                <td colspan="6" class="text-center">No recent activity</td>
             </tr>
         </tbody>
     </table>

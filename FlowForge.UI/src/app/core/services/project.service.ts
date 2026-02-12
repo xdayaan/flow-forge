@@ -13,10 +13,14 @@ export class ProjectService {
 
     constructor(private http: HttpClient) { }
 
-    getProjects(page: number, pageSize: number): Observable<PagedResult<Project>> {
+    getProjects(page: number, pageSize: number, searchTerm?: string): Observable<PagedResult<Project>> {
         let params = new HttpParams()
             .set('pageNumber', page.toString())
             .set('pageSize', pageSize.toString());
+
+        if (searchTerm) {
+            params = params.set('searchTerm', searchTerm);
+        }
 
         return this.http.get<PagedResult<Project>>(this.apiUrl, { params });
     }

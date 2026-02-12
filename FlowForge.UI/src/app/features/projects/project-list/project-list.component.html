@@ -1,13 +1,18 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Projects</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-toolbar mb-2 mb-md-0 d-flex gap-2">
+        <div class="input-group input-group-sm" style="width: 250px;">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control border-start-0" placeholder="Search projects..."
+                [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+        </div>
         <button type="button" class="btn btn-sm btn-primary" (click)="openCreateModal()">
             <i class="bi bi-plus-lg me-1"></i> New Project
         </button>
     </div>
 </div>
 
-<app-data-table [data]="projects" [columns]="columns" [totalCount]="totalCount" [pageNumber]="pageNumber"
+<app-data-table [data]="projects" [columns]="columns" [totalCount]="totalCount" [pageIndex]="pageNumber"
     [pageSize]="pageSize" [isLoading]="isLoading" (pageChange)="onPageChange($event)" (actionClick)="onAction($event)">
 </app-data-table>
 

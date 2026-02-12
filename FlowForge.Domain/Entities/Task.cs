@@ -13,9 +13,6 @@ public class Task : BaseEntity
     public Guid? AssignedTo { get; set; }
     public DateTime? DueDate { get; set; }
 
-    // Optimistic Concurrency - will be mapped as RowVersion/Timestamp in EF Core
-    public byte[] RowVersion { get; set; } = Array.Empty<byte>();
-
     // Navigation
     public Project? Project { get; set; }
     public User? Assignee { get; set; }

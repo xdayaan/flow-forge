@@ -1,0 +1,80 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">{{ isEditMode ? 'Edit Task' : 'New Task' }}</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-lg-6">
+        <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" formControlName="title"
+                    [class.is-invalid]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+                <div class="invalid-feedback">
+                    Title is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" formControlName="status">
+                        <option [value]="0">Todo</option>
+                        <option [value]="1">In Progress</option>
+                        <option [value]="2">Done</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="priority" class="form-label">Priority</label>
+                    <select class="form-select" id="priority" formControlName="priority">
+                        <option [value]="0">Low</option>
+                        <option [value]="1">Medium</option>
+                        <option [value]="2">High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="projectId" class="form-label">Project</label>
+                <select class="form-select" id="projectId" formControlName="projectId"
+                    [class.is-invalid]="taskForm.get('projectId')?.invalid && taskForm.get('projectId')?.touched">
+                    <option value="" disabled>Select a project</option>
+                    <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}</option>
+                </select>
+                <div class="invalid-feedback">
+                    Project is required.
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="assignedTo" class="form-label">Assigned To</label>
+                    <select class="form-select" id="assignedTo" formControlName="assignedTo">
+                        <option [ngValue]="null">Unassigned</option>
+                        <option *ngFor="let user of users" [value]="user.id">{{ user.fullName }}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="dueDate" class="form-label">Due Date</label>
+                    <input type="date" class="form-control" id="dueDate" formControlName="dueDate">
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid || isLoading">
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status"
+                        aria-hidden="true"></span>
+                    {{ isEditMode ? 'Update Task' : 'Create Task' }}
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

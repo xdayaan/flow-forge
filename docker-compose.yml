@@ -21,9 +21,9 @@ services:
     environment:
       - ConnectionStrings__DefaultConnection=Host=database;Database=FlowForgeDb;Username=postgres;Password=password
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_URLS=http://+:5111
     ports:
-      - "5111:8080"
+      - "5111:5111"
     depends_on:
       - database
     networks:

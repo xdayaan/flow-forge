@@ -142,3 +142,4 @@ D:\code\personal\flow-forge\FlowForge.API\obj\Debug\net10.0\refint\FlowForge.API
 D:\code\personal\flow-forge\FlowForge.API\obj\Debug\net10.0\FlowForge.API.pdb
 D:\code\personal\flow-forge\FlowForge.API\obj\Debug\net10.0\FlowForge.API.genruntimeconfig.cache
 D:\code\personal\flow-forge\FlowForge.API\obj\Debug\net10.0\ref\FlowForge.API.dll
+D:\code\personal\flow-forge\FlowForge.API\obj\Debug\net10.0\FlowForge.API.sourcelink.json

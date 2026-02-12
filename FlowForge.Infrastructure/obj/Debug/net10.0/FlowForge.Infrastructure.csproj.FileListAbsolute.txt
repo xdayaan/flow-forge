@@ -17,3 +17,4 @@ D:\code\personal\flow-forge\FlowForge.Infrastructure\obj\Debug\net10.0\refint\Fl
 D:\code\personal\flow-forge\FlowForge.Infrastructure\obj\Debug\net10.0\FlowForge.Infrastructure.pdb
 D:\code\personal\flow-forge\FlowForge.Infrastructure\obj\Debug\net10.0\FlowForge.Infrastructure.genruntimeconfig.cache
 D:\code\personal\flow-forge\FlowForge.Infrastructure\obj\Debug\net10.0\ref\FlowForge.Infrastructure.dll
+D:\code\personal\flow-forge\FlowForge.Infrastructure\obj\Debug\net10.0\FlowForge.Infrastructure.sourcelink.json

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FlowForge.Domain.Entities;
 using FlowForge.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Task = FlowForge.Domain.Entities.Task;
 
 namespace FlowForge.Infrastructure.Data;
@@ -32,10 +33,13 @@ public class AppDbContext : DbContext
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        // Configure RowVersion for Optimistic Concurrency
+        // Configure xmin for Optimistic Concurrency in PostgreSQL manually
         builder.Entity<Task>()
-            .Property(t => t.RowVersion)
-            .IsRowVersion();
+            .Property<uint>("xmin")
+            .HasColumnName("xmin")
+            .HasColumnType("xid")
+            .ValueGeneratedOnAddOrUpdate()
+            .IsConcurrencyToken();
 
         // Configure Relationships
         builder.Entity<Organization>()
@@ -84,6 +88,30 @@ public class AppDbContext : DbContext
         // Organization is special, it IS the tenant definition.
         // Usually we filter Organization by Id == TenantId ??
         builder.Entity<Organization>().HasQueryFilter(e => e.Id == _tenantService.TenantId && !e.IsDeleted);
+
+        // Configure DateTime properties for PostgreSQL UTC requirement
+        var dateTimeConverter = new Microsoft.EntityFrameworkCore.Storage.ValueConversion.ValueConverter<DateTime, DateTime>(
+            v => v.Kind == DateTimeKind.Utc ? v : v.ToUniversalTime(),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+        var nullableDateTimeConverter = new Microsoft.EntityFrameworkCore.Storage.ValueConversion.ValueConverter<DateTime?, DateTime?>(
+            v => !v.HasValue ? v : (v.Value.Kind == DateTimeKind.Utc ? v : v.Value.ToUniversalTime()),
+            v => !v.HasValue ? v : DateTime.SpecifyKind(v.Value, DateTimeKind.Utc));
+
+        foreach (var entityType in builder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (property.ClrType == typeof(DateTime))
+                {
+                    property.SetValueConverter(dateTimeConverter);
+                }
+                else if (property.ClrType == typeof(DateTime?))
+                {
+                    property.SetValueConverter(nullableDateTimeConverter);
+                }
+            }
+        }
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -107,6 +135,28 @@ public class AppDbContext : DbContext
                     entry.State = EntityState.Modified;
                     entry.Entity.IsDeleted = true;
                     break;
+            }
+        }
+
+        // Ensure all DateTime properties are UTC for Npgsql compatibility
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            foreach (var property in entry.Properties)
+            {
+                if (property.Metadata.ClrType == typeof(DateTime) || property.Metadata.ClrType == typeof(DateTime?))
+                {
+                    if (property.CurrentValue is DateTime dt)
+                    {
+                        if (dt.Kind == DateTimeKind.Unspecified)
+                        {
+                            property.CurrentValue = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+                        }
+                        else if (dt.Kind == DateTimeKind.Local)
+                        {
+                            property.CurrentValue = dt.ToUniversalTime();
+                        }
+                    }
+                }
             }
         }
 
