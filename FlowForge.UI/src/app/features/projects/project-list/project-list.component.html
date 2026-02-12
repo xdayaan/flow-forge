@@ -1,0 +1,14 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Projects</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-sm btn-primary" (click)="openCreateModal()">
+            <i class="bi bi-plus-lg me-1"></i> New Project
+        </button>
+    </div>
+</div>
+
+<app-data-table [data]="projects" [columns]="columns" [totalCount]="totalCount" [pageNumber]="pageNumber"
+    [pageSize]="pageSize" [isLoading]="isLoading" (pageChange)="onPageChange($event)" (actionClick)="onAction($event)">
+</app-data-table>
+
+<!-- Create/Edit Modal would go here or be a separate route -->

@@ -1,0 +1,47 @@
+services:
+  database:
+    image: postgres:16-alpine
+    container_name: flowforge-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: FlowForgeDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - flowforge-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: FlowForge.API/Dockerfile
+    container_name: flowforge-api
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=database;Database=FlowForgeDb;Username=postgres;Password=password
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "5111:8080"
+    depends_on:
+      - database
+    networks:
+      - flowforge-network
+
+  frontend:
+    build:
+      context: ./FlowForge.UI
+      dockerfile: Dockerfile
+    container_name: flowforge-ui
+    ports:
+      - "4200:80"
+    networks:
+      - flowforge-network
+
+networks:
+  flowforge-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="FlowForge.API/FlowForge.API.csproj" />
+  <Project Path="FlowForge.Application/FlowForge.Application.csproj" />
+  <Project Path="FlowForge.Domain/FlowForge.Domain.csproj" />
+  <Project Path="FlowForge.Infrastructure/FlowForge.Infrastructure.csproj" />
+</Solution>

@@ -1,0 +1,20 @@
+export interface Project {
+    id: string;
+    name: string;
+    description: string;
+    createdBy: string;
+    isArchived: boolean;
+    createdAt: string;
+    tenantId: string;
+}
+
+export interface CreateProjectDto {
+    name: string;
+    description: string;
+}
+
+export interface UpdateProjectDto {
+    name: string;
+    description: string;
+    isArchived: boolean;
+}

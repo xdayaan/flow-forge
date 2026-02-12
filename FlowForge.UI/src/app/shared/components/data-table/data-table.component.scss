@@ -1,0 +1,29 @@
+.page-link {
+    color: var(--ff-primary);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-item.active .page-link {
+    background-color: var(--ff-primary);
+    color: white;
+}
+
+.page-link:hover {
+    background-color: #e2e8f0;
+    color: var(--ff-primary);
+}
+
+.page-item.disabled .page-link {
+    color: #cbd5e1;
+}
+
+thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ff-secondary);
+}
